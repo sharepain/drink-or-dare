@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drink or Dare 🍻</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;padding:25px 16px;
+ display:grid;place-items:center;
+ background:radial-gradient(circle at top,#49316b,#120d20 65%);
+ color:white;font-family:system-ui,sans-serif;
+}
+.app{width:100%;max-width:440px;text-align:center}
+h1{font-size:36px;margin:8px 0}
+.sub{color:#c5b5da}
+.panel{
+ background:#261b38;border:1px solid #59436f;
+ padding:24px;border-radius:25px;margin:22px 0;
+ box-shadow:0 15px 50px #0005;
+}
+input{
+ width:100%;padding:14px;border-radius:12px;
+ border:1px solid #72588d;background:#180f25;
+ color:white;font-size:16px;margin:8px 0;
+}
+button{
+ border:0;border-radius:13px;padding:15px;
+ font-size:16px;font-weight:bold;cursor:pointer;
+}
+.primary{background:#a76aff;color:white;width:100%}
+.secondary{background:#463354;color:white}
+.buttons{display:flex;gap:10px;margin-top:15px}
+.buttons button{flex:1}
+.card{
+ min-height:190px;display:grid;place-items:center;
+ padding:20px;background:linear-gradient(145deg,#57338a,#30204b);
+ border-radius:20px;margin:18px 0;
+}
+#task{font-size:23px;font-weight:bold}
+#player{color:#f6cc79;font-size:18px}
+.small{font-size:12px;color:#b9a9ca;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="app">
+ <div>🍻 PARTY GAME</div>
+ <h1>DRINK OR DARE</h1>
+ <div class="sub">คืนนี้ใครจะรอด?</div>
+
+ <div class="panel">
+  <h2>👥 เพิ่มผู้เล่น</h2>
+  <input id="name" placeholder="ใส่ชื่อผู้เล่น">
+  <button class="primary" onclick="addPlayer()">+ เพิ่มผู้เล่น</button>
+  <p id="players">ยังไม่มีผู้เล่น</p>
+ </div>
+
+ <div class="panel">
+  <div id="player">พร้อมหรือยัง?</div>
+  <div class="card">
+   <div>
+    <div style="font-size:42px">🎲</div>
+    <div id="task">กดสุ่มเพื่อเริ่มเกม!</div>
+   </div>
+  </div>
+  <button class="primary" onclick="draw()">สุ่มภารกิจ 🎯</button>
+  <div class="buttons">
+   <button class="secondary" onclick="draw()">สุ่มใหม่</button>
+   <button class="secondary" onclick="reset()">เริ่มใหม่</button>
+  </div>
+ </div>
+ <div class="small">
+  เล่นอย่างมีสติ ไม่บังคับดื่ม<br>
+  เลือกผ่านหรือใช้น้ำเปล่าแทนได้เสมอ 💜
+ </div>
+</div>
+
+<script>
+const tasks=[
+ "เล่าเรื่องน่าอายที่สุดของตัวเอง 1 เรื่อง 😂",
+ "ให้เพื่อนตั้งฉายาใหม่ให้คุณ",
+ "เต้นโดยไม่มีเพลง 15 วินาที 💃",
+ "พูดชมคนทางซ้าย 3 ข้อ",
+ "ทำเสียงสัตว์ให้เพื่อนทาย 🐸",
+ "เลียนแบบเพื่อนในวง 1 คน",
+ "เล่าเรื่องโกหก 2 เรื่อง เรื่องจริง 1 เรื่อง",
+ "ให้เพื่อนถามคำถาม 1 ข้อ จะตอบหรือผ่านก็ได้",
+ "ร้องเพลงท่อนฮุก 1 เพลง 🎤",
+ "ทำหน้าตลกที่สุด 10 วินาที",
+ "เล่า First impression ของคนตรงข้าม",
+ "ตั้งชื่อวงดนตรีให้คนในวง",
+ "พูดประโยคยาก ๆ 3 รอบ",
+ "แชร์ความสามารถลับของตัวเอง",
+ "ให้ทุกคนโหวตตำแหน่งตลกประจำวง"
+];
+let players=[];
+let last=-1;
+
+function addPlayer(){
+ const input=document.getElementById('name');
+ const name=input.value.trim();
+ if(!name)return;
+ players.push(name);
+ input.value='';
+ document.getElementById('players').textContent=
+ players.join(' • ');
+}
+function draw(){
+ if(!players.length){
+  document.getElementById('task').textContent=
+  'เพิ่มผู้เล่นก่อนเริ่มเกม!';
+  return;
+ }
+ let n;
+ do{n=Math.floor(Math.random()*tasks.length)}
+ while(n===last && tasks.length>1);
+ last=n;
+ const p=players[Math.floor(Math.random()*players.length)];
+ document.getElementById('player').textContent='🎯 ถึงตา '+p;
+ document.getElementById('task').textContent=tasks[n];
+}
+function reset(){
+ players=[];
+ last=-1;
+ document.getElementById('players').textContent='ยังไม่มีผู้เล่น';
+ document.getElementById('player').textContent='พร้อมหรือยัง?';
+ document.getElementById('task').textContent='กดสุ่มเพื่อเริ่มเกม!';
+}
+</script>
+</body>
+</html>
